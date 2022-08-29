@@ -1,4 +1,4 @@
-package com.wanderer.wanderer;
+package com.wanderer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
