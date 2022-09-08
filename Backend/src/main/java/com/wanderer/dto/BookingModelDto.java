@@ -1,24 +1,21 @@
 package com.wanderer.dto;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import java.time.LocalDate;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 @Component
 public class BookingModelDto {
 
-	@JsonFormat(pattern = "yyyy-MM-dd", shape = Shape.STRING)
-	@NotBlank(message = "Booking date cannot be blank")
 	@NotNull(message = "Booking date cannot be null")
-	private String bookingDate;
+	private LocalDate bookingDate;
+	
+	@Positive(message = "No of tourist must be positive")
+	@NotNull(message = "No of tourist is required")
+	private int noOfTourist;
 
 	@NotBlank(message = "Booking status cannot be blank")
 	@NotNull(message = "Booking status cannot be null")
@@ -27,12 +24,30 @@ public class BookingModelDto {
 	@NotBlank(message = "Payment status cannot be blank")
 	@NotNull(message = "Payment status cannot be null")
 	private String paymentStatus = "Paid";
+	
+	private Double totalCost;
 
-	public String getBookingDate() {
+	public Double getTotalCost() {
+		return totalCost;
+	}
+
+	public void setTotalCost(Double totalCost) {
+		this.totalCost = totalCost;
+	}
+
+	public LocalDate getBookingDate() {
 		return bookingDate;
 	}
 
-	public void setBookingDate(String bookingDate) {
+	public int getNoOfTourist() {
+		return noOfTourist;
+	}
+
+	public void setNoOfTourist(int noOfTourist) {
+		this.noOfTourist = noOfTourist;
+	}
+
+	public void setBookingDate(LocalDate bookingDate) {
 		this.bookingDate = bookingDate;
 	}
 
@@ -55,11 +70,13 @@ public class BookingModelDto {
 	public BookingModelDto() {
 	}
 
-	public BookingModelDto(String bookingDate, String bookingStatus, String paymentStatus) {
+	public BookingModelDto(LocalDate bookingDate, String bookingStatus, String paymentStatus,Double totalCost,int noOfTourist) {
 		super();
 		this.bookingDate = bookingDate;
 		this.bookingStatus = bookingStatus;
 		this.paymentStatus = paymentStatus;
+		this.totalCost=totalCost;
+		this.noOfTourist=noOfTourist;
 	}
 
 	@Override

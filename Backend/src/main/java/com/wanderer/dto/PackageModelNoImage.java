@@ -1,6 +1,7 @@
 package com.wanderer.dto;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -29,11 +30,13 @@ public class PackageModelNoImage implements Serializable{
 	@PositiveOrZero(message = "Price can't be negative")
 	@NotNull(message="Price is mandatory")
 	private Double price;
+	@NotNull(message = "Journey Date is mandatory")
+	private LocalDate journeyDate;
 	
 	public PackageModelNoImage() {
 		super();
 	}
-	public PackageModelNoImage(String heading,String destination,int days,int nights,int seats,Double price) {
+	public PackageModelNoImage(String heading,String destination,int days,int nights,int seats,Double price,LocalDate journeyDate) {
 		super();
 		this.heading = heading;
 		this.destination = destination;
@@ -41,6 +44,7 @@ public class PackageModelNoImage implements Serializable{
 		this.nights = nights;
 		this.seats = seats;
 		this.price = price;
+		this.journeyDate=journeyDate;
 	}
 	public String getHeading() {
 		return heading;
@@ -59,6 +63,13 @@ public class PackageModelNoImage implements Serializable{
 	}
 	public void setDays(int days) {
 		this.days = days;
+	}
+	
+	public LocalDate getJourneyDate() {
+		return journeyDate;
+	}
+	public void setJourneyDate(LocalDate journeyDate) {
+		this.journeyDate = journeyDate;
 	}
 	public int getNights() {
 		return nights;
@@ -81,8 +92,10 @@ public class PackageModelNoImage implements Serializable{
 	@Override
 	public String toString() {
 		return "PackageModelNoImage [heading=" + heading + ", destination=" + destination + ", days=" + days
-				+ ", nights=" + nights + ", seats=" + seats + ", price=" + price + "]";
+				+ ", nights=" + nights + ", seats=" + seats + ", price=" + price + ", journeyDate=" + journeyDate + "]";
 	}
+	
+	
 	
 	
 

@@ -4,47 +4,62 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
-
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Component
 @Entity
 public class ScheduleModel implements Serializable {
 
 	@Id
-	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "schedule_id")
-	private String scheduleId;
-
-	@PositiveOrZero(message = "Day Number can't be negative")
-	@NotNull(message = "Day Number is mandatory")
-	private int dayNo;
+	private int scheduleId;
+	@NotBlank(message = "Day/Night is mandatory")
+	@NotNull(message = "Day/Night is mandatory")
+	private String dayOrNightNo;
 
 	@NotBlank(message = "Description is mandatory")
 	@NotNull(message = "Description is mandatory")
 	private String description;
 
-	public String getScheduleId() {
+	@JsonIgnore
+	@NotNull(message = "Package must be present")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "package_id")
+	private PackageModel packages;
+	
+	
+	public PackageModel getPackages() {
+		return packages;
+	}
+
+	public void setPackages(PackageModel packages) {
+		this.packages = packages;
+	}
+
+	public int getScheduleId() {
 		return scheduleId;
 	}
 
-	public void setScheduleId(String scheduleId) {
-		scheduleId = scheduleId;
+	public void setScheduleId(int scheduleId) {
+		this.scheduleId = scheduleId;
 	}
 
-	public int getDayNo() {
-		return dayNo;
+	public String getDayOrNightNo() {
+		return dayOrNightNo;
 	}
 
-	public void setDayNo(int dayNo) {
-		this.dayNo = dayNo;
+	public void setDayOrNightNo(String dayOrNightNo) {
+		this.dayOrNightNo = dayOrNightNo;
 	}
 
 	public String getDescription() {
@@ -58,16 +73,21 @@ public class ScheduleModel implements Serializable {
 	public ScheduleModel() {
 	}
 
-	public ScheduleModel(String scheduleId, int dayNo, String description) {
+	
+	public ScheduleModel(int scheduleId,String dayOrNightNo, String description,PackageModel packages) {
 		super();
-		scheduleId = scheduleId;
-		this.dayNo = dayNo;
+		this.scheduleId = scheduleId;
+		this.dayOrNightNo = dayOrNightNo;
 		this.description = description;
+		this.packages=packages;
 	}
 
 	@Override
 	public String toString() {
-		return "ScheduleModel [ScheduleId=" + scheduleId + ", dayNo=" + dayNo + ", description=" + description + "]";
+		return "ScheduleModel [scheduleId=" + scheduleId + ", dayOrNightNo=" + dayOrNightNo + ", description="
+				+ description + ", packages=" + packages + "]";
 	}
+
+	
 
 }
