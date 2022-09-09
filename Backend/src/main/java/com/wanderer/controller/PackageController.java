@@ -2,9 +2,12 @@ package com.wanderer.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -35,18 +38,19 @@ public class PackageController {
 	private UserServiceImpl userService;
 	
 	@GetMapping("user")
-	public ResponseEntity<List<PackageModel>> getPackages(@RequestParam() String keyWord) {
+	public ResponseEntity<List<PackageModel>> getPackages(@RequestParam(required = false) String keyWord) {
 		return new ResponseEntity<>(packageService.findAll(keyWord), HttpStatus.OK);
 	}
 	@GetMapping("admin")
-	public ResponseEntity<List<PackageModel>> getPackages(@RequestParam() String keyWord,Principal principal) {
+	public ResponseEntity<List<PackageModel>> getPackages(@RequestParam(required = false) String keyWord,Principal principal) {
 		return new ResponseEntity<>(packageService.findAllByAdmin(keyWord,principal.getName()), HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<PackageModel> insertPackage( @Valid @ModelAttribute PackageModelNoImage packages , @RequestParam("packageImage") MultipartFile multipartFile, Principal principal)
+	public ResponseEntity<PackageModel> insertPackage( @Valid @ModelAttribute PackageModelNoImage packages ,@RequestParam("packageImage") MultipartFile multipartFile, Principal principal)
 			throws IOException{
 		PackageModel p2 = new PackageModel();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		String imageUrl = StringUtils.cleanPath( multipartFile.getOriginalFilename());
 		p2.setHeading(packages.getHeading());
 		p2.setDestination(packages.getDestination());
@@ -55,6 +59,7 @@ public class PackageController {
 		p2.setSeats(packages.getSeats());
 		p2.setPrice(packages.getPrice());
 		p2.setImageUrl(imageUrl);
+		p2.setJourneyDate(LocalDate.parse(packages.getJourneyDate(), formatter));
 		p2.setUser(userService.findByEmail(principal.getName()));
 		PackageModel savedPackage = packageService.save(p2);
 		String uploadDir = "package-photos/" + savedPackage.getPackageId();

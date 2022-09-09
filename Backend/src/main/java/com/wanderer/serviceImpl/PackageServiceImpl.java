@@ -1,5 +1,7 @@
 package com.wanderer.serviceImpl;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +33,14 @@ public class PackageServiceImpl implements PackageService {
 		return packages.getHeading() + " Deleted";
 	}
 	public PackageModel update(PackageModelNoImage p,int id) throws NotFoundException{
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		PackageModel packages=findPackageById(id);
 		packages.setHeading(p.getHeading());
 		packages.setDestination(p.getDestination());
 		packages.setDays(p.getDays());
 		packages.setNights(p.getNights());
 		packages.setSeats(p.getSeats());
-		packages.setJourneyDate(p.getJourneyDate());
+		packages.setJourneyDate(LocalDate.parse(p.getJourneyDate(), formatter));
 		packages.setPrice(p.getPrice());
 		return save(packages);
 	}

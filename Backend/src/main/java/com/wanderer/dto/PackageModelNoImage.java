@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -30,13 +31,13 @@ public class PackageModelNoImage implements Serializable{
 	@PositiveOrZero(message = "Price can't be negative")
 	@NotNull(message="Price is mandatory")
 	private Double price;
-	@NotNull(message = "Journey Date is mandatory")
-	private LocalDate journeyDate;
+	@NotNull(message = "Journey Date is mandatory") 
+	private String journeyDate;
 	
 	public PackageModelNoImage() {
 		super();
 	}
-	public PackageModelNoImage(String heading,String destination,int days,int nights,int seats,Double price,LocalDate journeyDate) {
+	public PackageModelNoImage(String heading,String destination,int days,int nights,int seats,Double price,String journeyDate) {
 		super();
 		this.heading = heading;
 		this.destination = destination;
@@ -65,10 +66,10 @@ public class PackageModelNoImage implements Serializable{
 		this.days = days;
 	}
 	
-	public LocalDate getJourneyDate() {
+	public String getJourneyDate() {
 		return journeyDate;
 	}
-	public void setJourneyDate(LocalDate journeyDate) {
+	public void setJourneyDate(String journeyDate) {
 		this.journeyDate = journeyDate;
 	}
 	public int getNights() {

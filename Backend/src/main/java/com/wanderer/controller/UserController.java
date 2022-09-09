@@ -59,16 +59,6 @@ public class UserController {
 		return ResponseEntity.ok(new AuthResponse(this.jwtutil.generateToken(userdata.getUsername()),userService.findByEmail(userdata.getUsername()).getRole()));
 	}
 	
-	//this is test controller to test jwt authentication.
-	//delete this
-	@GetMapping("/test")
-	public String test()
-	{
-		return "Success";
-	}
-	
-	
-	
 	@PostMapping("/")
 	public ResponseEntity<String> createUser(@Valid @RequestBody UserDto user1) {
 	

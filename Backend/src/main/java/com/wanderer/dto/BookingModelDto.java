@@ -11,19 +11,15 @@ import org.springframework.stereotype.Component;
 public class BookingModelDto {
 
 	@NotNull(message = "Booking date cannot be null")
-	private LocalDate bookingDate;
+	private String bookingDate;
 	
 	@Positive(message = "No of tourist must be positive")
 	@NotNull(message = "No of tourist is required")
 	private int noOfTourist;
+	
+	private String bookingStatus;
 
-	@NotBlank(message = "Booking status cannot be blank")
-	@NotNull(message = "Booking status cannot be null")
-	private String bookingStatus = "Booked";
-
-	@NotBlank(message = "Payment status cannot be blank")
-	@NotNull(message = "Payment status cannot be null")
-	private String paymentStatus = "Paid";
+	private String paymentStatus;
 	
 	private Double totalCost;
 
@@ -35,7 +31,7 @@ public class BookingModelDto {
 		this.totalCost = totalCost;
 	}
 
-	public LocalDate getBookingDate() {
+	public String getBookingDate() {
 		return bookingDate;
 	}
 
@@ -47,7 +43,7 @@ public class BookingModelDto {
 		this.noOfTourist = noOfTourist;
 	}
 
-	public void setBookingDate(LocalDate bookingDate) {
+	public void setBookingDate(String bookingDate) {
 		this.bookingDate = bookingDate;
 	}
 
@@ -70,7 +66,7 @@ public class BookingModelDto {
 	public BookingModelDto() {
 	}
 
-	public BookingModelDto(LocalDate bookingDate, String bookingStatus, String paymentStatus,Double totalCost,int noOfTourist) {
+	public BookingModelDto(String bookingDate, String bookingStatus, String paymentStatus,Double totalCost,int noOfTourist) {
 		super();
 		this.bookingDate = bookingDate;
 		this.bookingStatus = bookingStatus;
