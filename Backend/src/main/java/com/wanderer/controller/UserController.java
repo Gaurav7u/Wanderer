@@ -11,6 +11,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,6 +92,17 @@ public class UserController {
 
 		}
 
+	}
+	@GetMapping("/checkUserEmail/{email}")
+	public ResponseEntity<Boolean> checkUserWithEmail(@PathVariable("email") String email)
+	{
+		return new ResponseEntity(userService.findByEmailBool(email),HttpStatus.OK);
+	}
+	
+	@GetMapping("/checkUserMobile/{mobile}")
+	public ResponseEntity<Boolean> checkUserWithMobile(@PathVariable("mobile") String mobile)
+	{
+		return new ResponseEntity(userService.findByMobile(mobile),HttpStatus.OK);
 	}
 	
 
