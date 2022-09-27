@@ -1,0 +1,51 @@
+h2 {
+    text-align: center;
+    color: black;
+}
+span{
+    font-size: 1.5rem;
+}
+
+.inputs {
+    margin: auto;
+    width: 50%;
+    height: 100%;
+    /* border: 3px solid green; */
+    box-shadow: rgba(63, 46, 46, 0.2) 2px 4px 16px 2px;
+    padding: 10px;
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+    margin-top: 10rem;
+}
+
+.flex {
+    padding-top: 1rem;
+    display: flex;
+    gap: 2em;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+input {
+    text-align: center;
+    width: 70%;
+    height: 30px;
+    display: block;
+    margin: 0 auto;
+}
+
+.btn{
+    width: 20%;
+    display: block;
+    margin: 0 auto;
+}
+
+select{
+    width: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
