@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,7 @@ import com.wanderer.dto.UserDto;
 import com.wanderer.model.UserModel;
 import com.wanderer.serviceImpl.UserServiceImpl;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -62,30 +64,31 @@ public class UserController {
 	
 	@PostMapping("/")
 	public ResponseEntity<String> createUser(@Valid @RequestBody UserDto user1) {
-	
+		UserModel user3 = new UserModel();
 		try {
             if(user1.getPassword().equals(user1.getConfirmPassword())) {
-            	user.setName(user1.getName());
-            	user.setRole(user1.getRole());
-            	user.setMobile(user1.getMobile());
-            	user.setPassword(user1.getPassword());
-            	user.setEmail(user1.getEmail());
-            	userService.create(user);	
+            	user3.setName(user1.getName());
+            	user3.setRole(user1.getRole());
+            	user3.setMobile(user1.getMobile());
+            	user3.setPassword(user1.getPassword());
+            	user3.setEmail(user1.getEmail());
+            	user3.setConfirmPassword(user1.getConfirmPassword());
+            	userService.create(user3);	
             }else {
             	return new ResponseEntity<>( " password doesn't match",
 						HttpStatus.EXPECTATION_FAILED);	
             }
             
-			return new ResponseEntity<>(user.getName() + "Registered Successfully", HttpStatus.CREATED);
+			return new ResponseEntity<>(user3.getName() + "Registered Successfully", HttpStatus.CREATED);
 
 	 } catch (DataIntegrityViolationException e) {
 			
              String errors="";
-				if (userService.findByEmailBool(user.getEmail())) {
-					errors=errors+user.getEmail() + " Already Registered with this email\n";
+				if (userService.findByEmailBool(user3.getEmail())) {
+					errors=errors+user3.getEmail() + " Already Registered with this email\n";
 				}
-				if (userService.findByMobile(user.getMobile())) {
-					errors=errors+user.getMobile() + " Already Registered with this mobilenumber\n";
+				if (userService.findByMobile(user3.getMobile())) {
+					errors=errors+user3.getMobile() + " Already Registered with this mobilenumber\n";
 				}
 			
 			return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
